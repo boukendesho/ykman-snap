@@ -1,0 +1,96 @@
+name: ykman 
+base: core22
+adopt-info: ykman
+summary: Configure your YubiKey via the command line 
+description: |
+  Configure your YubiKey via the command line.
+
+  Examples:
+
+    List connected YubiKeys, only output serial number:
+    $ ykman list --serials
+
+    Show information about YubiKey with serial number 0123456:
+    $ ykman --device 0123456 info
+
+  Please note that this is not a official maintained package. Use at your own risk.
+
+  Caution: you will need `pcscd` installed and running .
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+grade: stable
+confinement: strict
+
+
+apps:
+  ykman:
+    command: bin/ykman
+    plugs:
+      - u2f-devices
+      - pcscd
+  # pcscd:
+  #   command: usr/sbin/pcscd --foreground --auto-exit
+  #   daemon: simple
+  #   plugs:
+  #     - hardware-observe
+  #     - network
+  #     - network-bind
+  #     - raw-usb
+  #   sockets:
+  #    unix:
+  #      listen-stream: $SNAP_COMMON/pcscd/pcscd.comm
+  #      socket-mode: 0666
+
+parts:
+  ykman:
+    plugin: python
+    source-type: git
+    source: https://github.com/Yubico/yubikey-manager 
+    source-tag: '5.4.0'
+    source-depth: 1
+    override-pull: |
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=0)
+    build-packages:
+      - swig
+      - libu2f-udev
+      - pcscd
+      - libpcsclite-dev
+    # stage-packages:
+    #   - pcscd
+    prime:
+      - -bin/Activate.ps1
+      - -bin/activate
+      - -bin/activate.csh
+      - -bin/activate.fish
+      # - -etc/init.d
+      # - -lib/systemd
+      # - -lib/udev
+      # - -usr/share
+  
+  # Packing pcscd into snap is too complex, require patch upstream source code (pyscard).
+  # On the other side, distro default pcscd is very lightweight, and enabled socket activate feature.
+  # So i gave up pack it for now :(
+  #
+  # pscsd:
+  #   plugin: autotools
+  #   source-type: git
+  #   source: https://github.com/LudovicRousseau/PCSC
+  #   source-tag: '2.0.3'
+  #   source-depth: 1
+  #   autotools-configure-parameters:
+  #     - --enable-ipcdir=/run/snap.$SNAPCRAFT_PROJECT_NAME
+  #     - --enable-runpid=/run/snap.$SNAPCRAFT_PROJECT_NAME/pcscd/pcscd.pid
+  #     - --enable-confdir=$SNAP_USER_COMMON/etc/reader.conf.d
+  #     - --disable-polkit
+  #   build-packages:
+  #     - autoconf-archive
+  #     - pkg-config
+  #     - libsystemd-dev
+  #     - libudev-dev
+  #     - libusb-1.0-0-dev
+  #   stage-packages:
+  #     - libusb-1.0-0
