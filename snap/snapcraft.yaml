@@ -28,6 +28,7 @@ confinement: strict
 apps:
   ykman:
     command: bin/ykman
+    completer: bin/ykman-completion.bash
     plugs:
       - u2f-devices
       - pcscd
@@ -48,7 +49,7 @@ parts:
   ykman:
     plugin: python
     source-type: git
-    source: https://github.com/Yubico/yubikey-manager 
+    source: https://github.com/Yubico/yubikey-manager.git 
     source-tag: '5.4.0'
     source-depth: 1
     override-pull: |
@@ -70,6 +71,13 @@ parts:
       # - -lib/systemd
       # - -lib/udev
       # - -usr/share
+  # https://developers.yubico.com/yubikey-manager/
+  # $ _YKMAN_COMPLETE=bash_source ykman > ykman-completion.bash
+  completion:
+    plugin: dump
+    source: .
+    organize:
+      ykman-completion.bash: bin/ykman-completion.bash
   
   # Packing pcscd into snap is too complex, require patch upstream source code (pyscard).
   # On the other side, distro default pcscd is very lightweight, and enabled socket activate feature.
