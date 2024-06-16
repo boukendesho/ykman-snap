@@ -32,6 +32,7 @@ apps:
     plugs:
       - u2f-devices
       - pcscd
+      - home
   # pcscd:
   #   command: usr/sbin/pcscd --foreground --auto-exit
   #   daemon: simple
