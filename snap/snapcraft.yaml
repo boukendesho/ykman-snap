@@ -51,7 +51,7 @@ parts:
     plugin: python
     source-type: git
     source: https://github.com/Yubico/yubikey-manager.git 
-    source-tag: '5.4.0'
+    source-tag: '5.5.0'
     source-depth: 1
     override-pull: |
       craftctl default
@@ -79,7 +79,7 @@ parts:
     source: .
     organize:
       ykman-completion.bash: bin/ykman-completion.bash
-  
+
   # Packing pcscd into snap is too complex, require patch upstream source code (pyscard).
   # On the other side, distro default pcscd is very lightweight, and enabled socket activate feature.
   # So i gave up pack it for now :(
