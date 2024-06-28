@@ -63,6 +63,9 @@ parts:
       - libpcsclite-dev
     # stage-packages:
     #   - pcscd
+    override-build: |
+      craftctl default
+      _YKMAN_COMPLETE=bash_source $CRAFT_PART_INSTALL/bin/ykman > $CRAFT_PART_INSTALL/bin/ykman-completion.bash
     prime:
       - -bin/Activate.ps1
       - -bin/activate
@@ -72,13 +75,6 @@ parts:
       # - -lib/systemd
       # - -lib/udev
       # - -usr/share
-  # https://developers.yubico.com/yubikey-manager/
-  # $ _YKMAN_COMPLETE=bash_source ykman > ykman-completion.bash
-  completion:
-    plugin: dump
-    source: .
-    organize:
-      ykman-completion.bash: bin/ykman-completion.bash
 
   # Packing pcscd into snap is too complex, require patch upstream source code (pyscard).
   # On the other side, distro default pcscd is very lightweight, and enabled socket activate feature.
