@@ -1,5 +1,5 @@
 name: ykman 
-base: core22
+base: core24
 adopt-info: ykman
 summary: Configure your YubiKey via the command line 
 description: |
@@ -15,11 +15,11 @@ description: |
 
   Please note that this is not a official maintained package. Use at your own risk.
 
-  Caution: you will need `pcscd` installed and running .
+  Caution: you will need **pcscd** installed and running .
 
-architectures:
-  - build-on: amd64
-  - build-on: arm64
+platforms:
+  amd64:
+  arm64:
 
 grade: stable
 confinement: strict
