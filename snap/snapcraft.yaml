@@ -19,7 +19,7 @@ description: |
 
 platforms:
   amd64:
-  arm64:
+  # arm64:
 
 grade: stable
 confinement: strict
@@ -48,6 +48,7 @@ apps:
 
 parts:
   ykman:
+    after: [pcscd]
     plugin: python
     source-type: git
     source: https://github.com/Yubico/yubikey-manager.git 
@@ -59,10 +60,8 @@ parts:
     build-packages:
       - swig
       - libu2f-udev
-      - pcscd
-      - libpcsclite-dev
-    # stage-packages:
-    #   - pcscd
+      # - pcscd
+      # - libpcsclite-dev
     override-build: |
       craftctl default
       _YKMAN_COMPLETE=bash_source $CRAFT_PART_INSTALL/bin/ykman > $CRAFT_PART_INSTALL/bin/ykman-completion.bash
@@ -79,23 +78,28 @@ parts:
   # Packing pcscd into snap is too complex, require patch upstream source code (pyscard).
   # On the other side, distro default pcscd is very lightweight, and enabled socket activate feature.
   # So i gave up pack it for now :(
-  #
-  # pscsd:
-  #   plugin: autotools
-  #   source-type: git
-  #   source: https://github.com/LudovicRousseau/PCSC
-  #   source-tag: '2.0.3'
-  #   source-depth: 1
-  #   autotools-configure-parameters:
-  #     - --enable-ipcdir=/run/snap.$SNAPCRAFT_PROJECT_NAME
-  #     - --enable-runpid=/run/snap.$SNAPCRAFT_PROJECT_NAME/pcscd/pcscd.pid
-  #     - --enable-confdir=$SNAP_USER_COMMON/etc/reader.conf.d
-  #     - --disable-polkit
-  #   build-packages:
-  #     - autoconf-archive
-  #     - pkg-config
-  #     - libsystemd-dev
-  #     - libudev-dev
-  #     - libusb-1.0-0-dev
-  #   stage-packages:
-  #     - libusb-1.0-0
+  # The following is just for building the latest libpcsclite library, pcscd is not enabled in this snap.
+  pcscd:
+    plugin: autotools
+    source-type: git
+    source: https://github.com/LudovicRousseau/PCSC
+    source-tag: '2.3.1'
+    source-depth: 1
+    autotools-configure-parameters:
+      - --prefix=/usr
+    #   - --enable-ipcdir=/run/snap.$SNAPCRAFT_PROJECT_NAME
+    #   - --enable-runpid=/run/snap.$SNAPCRAFT_PROJECT_NAME/pcscd/pcscd.pid
+    #   - --enable-confdir=$SNAP_USER_COMMON/etc/reader.conf.d
+    #   - --disable-polkit
+    build-packages:
+      - autoconf-archive
+      - flex
+      - pkg-config
+      - libsystemd-dev
+      - libudev-dev
+      - libusb-1.0-0-dev
+      - libpolkit-gobject-1-dev
+    # stage-packages:
+    #   - libusb-1.0-0
+    prime:
+      - -usr/share
