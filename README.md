@@ -14,10 +14,10 @@ Configure your YubiKey via the command line.
 Ubuntu 24.10  above or pcscd > 2.3.0 version will  likely encounter this problem.
 Details: https://github.com/Yubico/yubioath-flutter/issues/1725
 
-Please try the beta channel build.
+Please try the edge channel build.
 
 ```bash
-$ sudo snap refresh ykman --beta
+$ sudo snap refresh ykman --edge
 ```
 
 ### Authors
