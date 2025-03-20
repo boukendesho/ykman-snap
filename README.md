@@ -1,9 +1,24 @@
 ## ykman-snap
 [![ykman](https://snapcraft.io/ykman/badge.svg)](https://snapcraft.io/ykman)
 
-[Ykman Project Link](https://github.com/Yubico/yubikey-manager) 
+[ykman Project Link](https://github.com/Yubico/yubikey-manager) 
 
 Configure your YubiKey via the command line.
+
+### Known issues: Pcscd: Communication protocol mismatch!
+
+> Ykman warnnings:
+> WARNING: PC/SC not available. Smart card (CCID) protocols will not function.
+> ERROR: Unable to list devices for connection
+
+Ubuntu 24.10  above or pcscd > 2.3.0 version will  likely encounter this problem.
+Details: https://github.com/Yubico/yubioath-flutter/issues/1725
+
+Please try the beta channel build.
+
+```bash
+$ sudo snap refresh ykman --beta
+```
 
 ### Authors
 
