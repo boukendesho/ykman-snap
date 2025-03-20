@@ -19,7 +19,7 @@ description: |
 
 platforms:
   amd64:
-  # arm64:
+  arm64:
 
 grade: stable
 confinement: strict
