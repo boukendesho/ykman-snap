@@ -83,7 +83,7 @@ parts:
     plugin: autotools
     source-type: git
     source: https://github.com/LudovicRousseau/PCSC
-    source-tag: '2.3.2'
+    source-tag: '2.3.3'
     source-depth: 1
     autotools-configure-parameters:
       - --prefix=/usr
