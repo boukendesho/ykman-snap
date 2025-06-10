@@ -52,7 +52,7 @@ parts:
     plugin: python
     source-type: git
     source: https://github.com/Yubico/yubikey-manager.git 
-    source-tag: '5.7.0'
+    source-tag: '5.7.2'
     source-depth: 1
     override-pull: |
       craftctl default
