@@ -1,7 +1,7 @@
 ## ykman-snap
 [![ykman](https://snapcraft.io/ykman/badge.svg)](https://snapcraft.io/ykman)
-
-[ykman Project Link](https://github.com/Yubico/yubikey-manager) 
+ 
+[![ykman](https://img.shields.io/github/v/release/Yubico/yubikey-manager?logo=github)](https://github.com/Yubico/yubikey-manager)
 
 Configure your YubiKey via the command line.
 
