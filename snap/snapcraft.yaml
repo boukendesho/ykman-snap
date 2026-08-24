@@ -80,19 +80,21 @@ parts:
   # So i gave up pack it for now :(
   # The following is just for building the latest libpcsclite library, pcscd is not enabled in this snap.
   pcscd:
-    plugin: autotools
+    plugin: meson
     source-type: git
     source: https://github.com/LudovicRousseau/PCSC
     source-tag: '2.5.1'
     source-depth: 1
-    autotools-configure-parameters:
-      - --prefix=/usr
+    #autotools-configure-parameters:
+    #  - --prefix=/usr
     #   - --enable-ipcdir=/run/snap.$SNAPCRAFT_PROJECT_NAME
     #   - --enable-runpid=/run/snap.$SNAPCRAFT_PROJECT_NAME/pcscd/pcscd.pid
     #   - --enable-confdir=$SNAP_USER_COMMON/etc/reader.conf.d
     #   - --disable-polkit
     build-packages:
-      - autoconf-archive
+      - build-essential
+      - meson
+      - ninja-build
       - flex
       - pkg-config
       - libsystemd-dev
@@ -102,4 +104,4 @@ parts:
     # stage-packages:
     #   - libusb-1.0-0
     prime:
-      - -usr/share
+      - usr/local/lib
